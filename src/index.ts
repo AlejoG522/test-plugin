@@ -1,5 +1,3 @@
-import { resolve } from "node:path";
-
 import { Plugin, PluginEvents, PluginType } from "@serenityjs/plugins";
 
 import { WorldEvent, World, PlayerJoinSignal, WorldEventSignals, WorldInitializeSignal } from "@serenityjs/core";
@@ -22,12 +20,9 @@ class TestPlugin extends Plugin {
   protected onPlayerJoin(event: PlayerJoinSignal): void {
     const message = `§7[§a+§7] §a${event.player.username} §7joined the game.`;
     this.logger.info(message);
-    this.serenity.on(WorldEvent.PlayerJoin, (spawnEvent) => {
-      if (spawnEvent.player.username === event.player.username) {
-      this.broadcastMessage(message, event.player.username);
-      }
-    });
+    this.broadcastMessage(message);
   }
+  
 
   public broadcastMessage(message: string, excludeUsername?: string): void {
     for (const player of this.serenity.getPlayers()) {
